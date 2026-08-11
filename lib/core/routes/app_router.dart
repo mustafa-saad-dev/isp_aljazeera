@@ -1,28 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'app_routes.dart';
-import '../../views/splash/splash_view.dart';
-import '../../views/auth/login_view.dart';
-import '../../views/auth/register_view.dart';
-import '../../views/auth/pending_approval_view.dart';
-import '../../views/root/root_view.dart';
-import '../../views/accounts/accounts_view.dart';
-import '../../views/accounts/add_edit_account_view.dart';
-import '../../views/home/home_view.dart';
-import '../../views/subscribers/subscribers_view.dart';
-import '../../views/subscriber_details/subscriber_details_view.dart';
-import '../../views/edit_subscriber/edit_subscriber_view.dart';
-import '../../views/activation/activation_view.dart';
-import '../../views/managers/managers_view.dart';
-import '../../views/managers/manager_details_view.dart';
-import '../../views/managers/settlement_view.dart';
-import '../../views/debts/debts_view.dart';
-import '../../views/reports/reports_view.dart';
-import '../../views/campaigns/campaigns_view.dart';
-import '../../views/campaigns/campaign_details_view.dart';
-import '../../views/settings/settings_view.dart';
-import '../../views/page_not_found/page_not_found.dart';
-import 'app_routes_name.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
