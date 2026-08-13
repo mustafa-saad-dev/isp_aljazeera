@@ -1,0 +1,151 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Tajawal", "Segoe UI", "Tahoma", system-ui, sans-serif;
+  overflow: hidden;
+}
+
+#app-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background: #ffffff;
+  transition: opacity 0.5s ease;
+}
+
+#app-loading.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Orbiting dots around the logo */
+.stage {
+  position: relative;
+  width: 156px;
+  height: 156px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbit {
+  position: absolute;
+  inset: 0;
+  width: 156px;
+  height: 156px;
+  animation: spin 2.4s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.orbit circle {
+  fill: var(--brand);
+  opacity: 0.18;
+}
+
+/* comet trail: brightest at the leading dot, fading around */
+.orbit circle:nth-child(1) {
+  opacity: 1;
+}
+.orbit circle:nth-child(2) {
+  opacity: 0.9;
+}
+.orbit circle:nth-child(3) {
+  opacity: 0.78;
+}
+.orbit circle:nth-child(4) {
+  opacity: 0.66;
+}
+.orbit circle:nth-child(5) {
+  opacity: 0.55;
+}
+.orbit circle:nth-child(6) {
+  opacity: 0.45;
+}
+.orbit circle:nth-child(7) {
+  opacity: 0.36;
+}
+.orbit circle:nth-child(8) {
+  opacity: 0.28;
+}
+.orbit circle:nth-child(9) {
+  opacity: 0.22;
+}
+.orbit circle:nth-child(10) {
+  opacity: 0.18;
+}
+.orbit circle:nth-child(11) {
+  opacity: 0.18;
+}
+.orbit circle:nth-child(12) {
+  opacity: 0.18;
+}
+
+.logo {
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  object-fit: contain;
+  opacity: 0;
+  animation: rise 0.8s ease-out 0.1s forwards;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wordmark {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  margin: 0;
+  background: linear-gradient(90deg, var(--brand-strong), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  animation: rise 0.8s ease-out 0.28s forwards;
+}
+
+.tagline {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: -18px 0 0;
+  letter-spacing: 0.3px;
+  opacity: 0;
+  animation: rise 0.8s ease-out 0.42s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit {
+    animation: none !important;
+  }
+  .logo,
+  .wordmark,
+  .tagline {
+    opacity: 1;
+    animation: none !important;
+  }
+}

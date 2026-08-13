@@ -1,46 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
+
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="Subnex - إدارة اشتراكات وكلاء الإنترنت">
+  <meta name="theme-color" content="#378ADD">
 
-  <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="isp_aljazeera">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Subnex">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.ico" />
 
-  <title>isp_aljazeera</title>
+  <title>Subnex</title>
   <link rel="manifest" href="manifest.json">
-</head>
-<body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+  <link rel="stylesheet" href="theme/colors.css">
+  <link rel="stylesheet" href="theme/loading-root.css">
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+
+</head>
+
+<body>
+  <div id="app-loading">
+    <div class="stage">
+      <svg class="orbit" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="60" cy="10" r="4" />
+        <circle cx="85" cy="16.7" r="4" />
+        <circle cx="103.3" cy="35" r="4" />
+        <circle cx="110" cy="60" r="4" />
+        <circle cx="103.3" cy="85" r="4" />
+        <circle cx="85" cy="103.3" r="4" />
+        <circle cx="60" cy="110" r="4" />
+        <circle cx="35" cy="103.3" r="4" />
+        <circle cx="16.7" cy="85" r="4" />
+        <circle cx="10" cy="60" r="4" />
+        <circle cx="16.7" cy="35" r="4" />
+        <circle cx="35" cy="16.7" r="4" />
+      </svg>
+      <img class="logo" src="icons/icon-512.png" alt="Subnex" width="96" height="96" />
+    </div>
+
+    <div class="wordmark">Subnex</div>
+    <div class="tagline">جاري التحميل</div>
+  </div>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
+
 </html>

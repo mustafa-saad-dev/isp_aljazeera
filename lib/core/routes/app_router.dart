@@ -1,156 +1,72 @@
-import 'package:go_router/go_router.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'app_routes.dart';
+import 'package:go_router/go_router.dart';
 
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
+import '../../controllers/auth/auth_controller.dart';
+import '../../core/routes/app_routes.dart';
+import '../../views/auth/login_view.dart';
+import '../../views/auth/register_view.dart';
+import '../../views/home/home_view.dart';
+import '../../views/reports/reports_view.dart';
+import '../../views/settings/settings_view.dart';
+import '../../views/splash/splash_view.dart';
+
+class _AuthNotifier extends ChangeNotifier {
+  _AuthNotifier(AuthController controller) {
+    controller.stream.listen((_) => notifyListeners());
+  }
+}
+
+final _authNotifier = _AuthNotifier(AuthController.instance);
 
 final GoRouter appRouter = GoRouter(
-  navigatorKey: rootNavigatorKey,
-  initialLocation: AppRoutes.splash,
+  initialLocation: kIsWeb ? AppRoutes.login : AppRoutes.splash,
   routes: [
-    // GoRoute(
-    //   path: AppRoutes.splash,
-    //   name: AppRouteNames.splash,
-    //   builder: (context, state) => const SplashView(),
-    // ),
-    // GoRoute(
-    //   path: AppRoutes.login,
-    //   name: AppRouteNames.login,
-    //   builder: (context, state) => const LoginView(),
-    // ),
-    // GoRoute(
-    //   path: AppRoutes.register,
-    //   name: AppRouteNames.register,
-    //   builder: (context, state) => const RegisterView(),
-    // ),
-    // GoRoute(
-    //   path: AppRoutes.pendingApproval,
-    //   name: AppRouteNames.pendingApproval,
-    //   builder: (context, state) => const PendingApprovalView(),
-    // ),
-
-    // Adaptive shell: bottom nav bar (compact), nav rail (medium/expanded —
-    // tablet, Windows, web). Same route tree drives every platform; only the
-    // chrome around it adapts, per the breakpoint rules in the build plan.
-    // ShellRoute(
-    //   navigatorKey: shellNavigatorKey,
-    //   builder: (context, state, child) => RootView(child: child),
-    //   routes: [
-    //     GoRoute(
-    //       path: AppRoutes.home,
-    //       name: AppRouteNames.home,
-    //       builder: (context, state) => const HomeView(),
-    //     ),
-    //     GoRoute(
-    //       path: AppRoutes.accounts,
-    //       name: AppRouteNames.accounts,
-    //       builder: (context, state) => const AccountsView(),
-    //       routes: [
-    //         GoRoute(
-    //           path: 'add',
-    //           name: AppRouteNames.addEditAccount,
-    //           builder: (context, state) {
-    //             // existing account passed via `extra` for edit mode, null for add
-    //             final account = state.extra;
-    //             return AddEditAccountView(existing: account);
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //     GoRoute(
-    //       path: AppRoutes.subscribers,
-    //       name: AppRouteNames.subscribers,
-    //       builder: (context, state) => const SubscribersView(),
-    //       routes: [
-    //         GoRoute(
-    //           path: ':id',
-    //           name: AppRouteNames.subscriberDetails,
-    //           parentNavigatorKey:
-    //               rootNavigatorKey, // full screen, above the shell
-    //           builder: (context, state) {
-    //             final id = int.parse(state.pathParameters['id']!);
-    //             return SubscriberDetailsView(subscriberId: id);
-    //           },
-    //           routes: [
-    //             GoRoute(
-    //               path: 'edit',
-    //               name: AppRouteNames.editSubscriber,
-    //               parentNavigatorKey: rootNavigatorKey,
-    //               builder: (context, state) {
-    //                 final id = int.parse(state.pathParameters['id']!);
-    //                 return EditSubscriberView(subscriberId: id);
-    //               },
-    //             ),
-    //             GoRoute(
-    //               path: 'activate',
-    //               name: AppRouteNames.activation,
-    //               parentNavigatorKey: rootNavigatorKey,
-    //               builder: (context, state) {
-    //                 final id = int.parse(state.pathParameters['id']!);
-    //                 return ActivationView(subscriberId: id);
-    //               },
-    //             ),
-    //           ],
-    //         ),
-    //       ],
-    //     ),
-    //     GoRoute(
-    //       path: AppRoutes.managers,
-    //       name: AppRouteNames.managers,
-    //       builder: (context, state) => const ManagersView(),
-    //       routes: [
-    //         GoRoute(
-    //           path: ':id',
-    //           name: AppRouteNames.managerDetails,
-    //           parentNavigatorKey: rootNavigatorKey,
-    //           builder: (context, state) {
-    //             final id = int.parse(state.pathParameters['id']!);
-    //             return ManagerDetailsView(managerId: id);
-    //           },
-    //         ),
-    //         GoRoute(
-    //           path: 'settlement',
-    //           name: AppRouteNames.settlement,
-    //           parentNavigatorKey: rootNavigatorKey,
-    //           builder: (context, state) => const SettlementView(),
-    //         ),
-    //       ],
-    //     ),
-    //     GoRoute(
-    //       path: AppRoutes.debts,
-    //       name: AppRouteNames.debts,
-    //       builder: (context, state) => const DebtsView(),
-    //     ),
-    //     GoRoute(
-    //       path: AppRoutes.reports,
-    //       name: AppRouteNames.reports,
-    //       builder: (context, state) => const ReportsView(),
-    //     ),
-    //     GoRoute(
-    //       path: AppRoutes.campaigns,
-    //       name: AppRouteNames.campaigns,
-    //       builder: (context, state) => const CampaignsView(),
-    //       routes: [
-    //         GoRoute(
-    //           path: ':id',
-    //           name: AppRouteNames.campaignDetails,
-    //           parentNavigatorKey: rootNavigatorKey,
-    //           builder: (context, state) {
-    //             final id = int.parse(state.pathParameters['id']!);
-    //             return CampaignDetailsView(campaignId: id);
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //     GoRoute(
-    //       path: AppRoutes.settings,
-    //       name: AppRouteNames.settings,
-    //       builder: (context, state) => const SettingsView(),
-    //     ),
-    //   ],
-    // ),
-  
+    GoRoute(
+      path: AppRoutes.splash,
+      builder: (context, state) => const SplashView(),
+    ),
+    GoRoute(
+      path: AppRoutes.login,
+      builder: (context, state) => const LoginView(),
+    ),
+    GoRoute(
+      path: AppRoutes.register,
+      builder: (context, state) => const RegisterView(),
+    ),
+    GoRoute(
+      path: AppRoutes.home,
+      builder: (context, state) => const HomeView(),
+    ),
+    GoRoute(
+      path: AppRoutes.reports,
+      builder: (context, state) => const ReportsView(),
+    ),
+    GoRoute(
+      path: AppRoutes.settings,
+      builder: (context, state) => const SettingsView(),
+    ),
   ],
-  // errorBuilder: (context, state) => const PageNotFound(),
+  redirect: (_, state) {
+    final authState = AuthController.instance.state;
+    final loggedIn = authState.user != null;
+    final loc = state.matchedLocation;
+
+    final onPublic =
+        loc == AppRoutes.login ||
+        loc == AppRoutes.register ||
+        loc == AppRoutes.splash;
+
+    if (kIsWeb) {
+      if (loggedIn) return loc == AppRoutes.home ? null : AppRoutes.home;
+      return loc == AppRoutes.login ? null : AppRoutes.login;
+    }
+
+    if (loggedIn && (loc == AppRoutes.login || loc == AppRoutes.register)) {
+      return AppRoutes.home;
+    }
+    if (!loggedIn && !onPublic) return AppRoutes.splash;
+    return null;
+  },
+  refreshListenable: _authNotifier,
 );

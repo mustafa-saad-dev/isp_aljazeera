@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'app_translations.dart';
-import '../../controllers/locale/locale_controller.dart';
+import 'package:flutter/widgets.dart';
 
-extension TranslateExtension on BuildContext {
-  String tr(String key) {
-    final languageCode = read<LocaleController>().state.locale.languageCode;
-    return AppTranslations.translate(languageCode, key);
-  }
+import '../../core/localization/app_translations.dart';
+
+extension BuildContextTranslate on BuildContext {
+  String tr(String key) => AppTranslations.tr(key);
 }

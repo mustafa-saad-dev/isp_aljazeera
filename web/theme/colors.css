@@ -1,0 +1,33 @@
+:root {
+  /* Brand */
+  --brand: #378add;
+  --brand-strong: #1f6fc4;
+  --brand-soft: #6aa9e0;
+  --accent: #1d9e75;
+
+  /* Surfaces / background */
+  --bg-top: #eef3fa;
+  --bg-bottom: #e6edf6;
+  --surface: #ffffff;
+  --line: #e7edf4;
+
+  /* Shimmer */
+  --shimmer-a: #eef2f7;
+  --shimmer-b: #dde6f1;
+
+  /* Progress ring */
+  --ring-track: rgba(31, 111, 196, 0.14);
+
+  /* Mesh / glow */
+  --gold: #ba7517;
+  --glow-1: rgba(55, 138, 221, 0.4);
+  --glow-2: rgba(29, 158, 117, 0.34);
+  --glow-3: rgba(186, 117, 23, 0.22);
+  --disc-bg: rgba(255, 255, 255, 0.55);
+  --disc-border: rgba(255, 255, 255, 0.85);
+  --disc-shadow: 0 20px 50px -20px rgba(15, 61, 120, 0.45);
+
+  /* Text */
+  --text-strong: #122a47;
+  --text-muted: #7d93ad;
+}
