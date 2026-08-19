@@ -10,7 +10,6 @@ class AppTranslations {
   static final List<Locale> supportedLocales = const [
     Locale('ar'),
     Locale('en'),
-    Locale('ku'),
   ];
 
   static Map<String, String> _strings = {};

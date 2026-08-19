@@ -41,12 +41,14 @@ class SplashController extends Cubit<SplashState> {
       final update = await _updateService.checkForUpdate();
       if (isClosed) return;
 
-      if (update.hasUpdate) {
+      if (update != null) {
+        final needsUpdate = await _updateService.needsUpdate();
+        if (isClosed) return;
         emit(
           state.copyWith(
             status: RequestStatus.success,
             update: update,
-            updateRequired: update.required,
+            updateRequired: update.forceUpdate && needsUpdate,
           ),
         );
       } else {

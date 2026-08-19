@@ -8,6 +8,7 @@ import '../../controllers/auth/auth_state.dart';
 import '../../controllers/splash/splash_controller.dart';
 import '../../controllers/splash/splash_state.dart';
 import '../../core/routes/app_routes.dart';
+import '../../models/app/app_version_model/app_version_model.dart';
 import '../../services/app_update/app_update_service.dart';
 import '../../core/status/request_status.dart';
 import '../../views/splash/widgets/splash_loading.dart';
@@ -70,18 +71,20 @@ class _SplashViewState extends State<SplashView> {
 
   Future<void> _showAlert(
     BuildContext context, {
-    required UpdateInfo update,
+    required AppVersionModel update,
     required bool forced,
   }) async {
     if (_alertOpen || !mounted) return;
     _alertOpen = true;
 
+    final downloadUrl = AppUpdateService.instance.getDownloadUrl(update);
+
     await SplashUpdateDialog.show(
       context,
       update: update,
       forced: forced,
-      onUpdate: update.downloadUrl.isNotEmpty
-          ? () => AppUpdateService.openUpdateUrl(update.downloadUrl)
+      onUpdate: downloadUrl.isNotEmpty
+          ? () => AppUpdateService.openUpdateUrl(downloadUrl)
           : null,
     );
 

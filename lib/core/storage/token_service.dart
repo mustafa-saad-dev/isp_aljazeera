@@ -4,23 +4,41 @@ class TokenService {
   TokenService._();
 
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
-  static const String _tokenKey = 'AUTH_TOKEN';
 
-  static String? _token;
+  static const String _api1Key = 'API1_TOKEN';
+  static String? _api1Token;
+  static String? _api2Token;
 
-  static String? get token => _token;
+  static String? get token => _api1Token;
+
+  static String getApi1Token() => _api1Token ?? '';
+  static String getApi2Token() => _api2Token ?? '';
 
   static Future<void> init() async {
-    _token = await _storage.read(key: _tokenKey);
+    _api1Token = await _storage.read(key: _api1Key);
   }
 
-  static Future<void> save(String token) async {
-    _token = token;
-    await _storage.write(key: _tokenKey, value: token);
+  // ── API 1: always persistent ──
+  static Future<void> saveApi1(String token, {bool rememberMy = false}) async {
+    _api1Token = token;
+    if (rememberMy) {
+      await _storage.write(key: _api1Key, value: token);
+    }
   }
 
-  static Future<void> clear() async {
-    _token = null;
-    await _storage.delete(key: _tokenKey);
+  static Future<void> clearApi1() async {
+    _api1Token = null;
+    await _storage.delete(key: _api1Key);
   }
+
+  static void setApi2(String token) {
+    _api2Token = token;
+  }
+
+  static Future<void> clearApi2() async {
+    _api2Token = null;
+  }
+
+  static Future<void> save(String token) => saveApi1(token);
+  static Future<void> clear() => clearApi1();
 }

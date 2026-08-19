@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-
-import '../../core/theme/extensions/context_theme_extension.dart';
+import '../../core/theme/app_theme.dart';
 
 class AppButton extends StatefulWidget {
+  final String label;
+  final VoidCallback? onPressed;
+  final IconData? icon;
+  final double height;
+  final double? width;
+  final bool isLoading;
+  final bool fullWidth;
+  final BorderRadius borderRadius;
   const AppButton({
     super.key,
     required this.label,
@@ -12,15 +19,8 @@ class AppButton extends StatefulWidget {
     this.width,
     this.isLoading = false,
     this.fullWidth = false,
+    this.borderRadius = AppRadius.smallAll,
   });
-
-  final String label;
-  final VoidCallback? onPressed;
-  final IconData? icon;
-  final double height;
-  final double? width;
-  final bool isLoading;
-  final bool fullWidth;
 
   @override
   State<AppButton> createState() => _AppButtonState();
@@ -33,11 +33,12 @@ class _AppButtonState extends State<AppButton> {
     final onColor = scheme.onPrimary;
 
     final children = <Widget>[];
-    if (widget.icon != null || widget.isLoading) {
-      children.add(_iconSlot(onColor));
-      children.add(const SizedBox(width: 8));
-    }
     children.add(Text(widget.label));
+
+    if (widget.icon != null || widget.isLoading) {
+      children.add(const SizedBox(width: 8));
+      children.add(_iconSlot(onColor));
+    }
 
     final content = Row(mainAxisSize: MainAxisSize.min, children: children);
 
@@ -50,7 +51,8 @@ class _AppButtonState extends State<AppButton> {
         disabledForegroundColor: onColor.withValues(alpha: 0.7),
         elevation: 6,
         shadowColor: scheme.primary.withValues(alpha: 0.45),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        iconAlignment: IconAlignment.end,
+        shape: RoundedRectangleBorder(borderRadius: widget.borderRadius),
         padding: const EdgeInsets.symmetric(horizontal: 18),
         textStyle: const TextStyle(
           fontSize: 15,

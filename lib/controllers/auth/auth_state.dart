@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../core/status/request_status.dart';
-import '../../models/auth/user_model.dart';
+import '../../models/auth/user_model/user_model.dart';
 
 class AuthState extends Equatable {
   final RequestStatus status;

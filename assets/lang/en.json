@@ -85,5 +85,22 @@
   "refresh": "Refresh",
   "loading_more": "Loading more…",
   "no_more_data": "No more data",
-  "faield_loading_swipe_to_try_again": "Failed to load, swipe to retry"
+  "faield_loading_swipe_to_try_again": "Failed to load, swipe to retry",
+  "selectLanguage": "Select Language",
+  "selectTheme": "Select Theme",
+  "lightMode": "Light Mode",
+  "darkMode": "Dark Mode",
+  "systemMode": "System Default",
+  "forgotPasswordSubtitle": "Enter your email or phone number and we'll send you a verification code",
+  "sendCode": "Send code",
+  "rememberPassword": "Remember your password?",
+  "otpSubtitle": "Enter the verification code we sent you",
+  "enterOtp": "Verification code",
+  "verifyCode": "Verify",
+  "resendCode": "Resend code",
+  "otpSubtitleResent": "A new code has been sent",
+  "resetPasswordSubtitle": "Create a new password",
+  "newPassword": "New password",
+  "resetPassword": "Reset password",
+  "passwordResetSuccess": "Password reset successfully"
 }

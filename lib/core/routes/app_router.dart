@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../controllers/auth/auth_controller.dart';
 import '../../core/routes/app_routes.dart';
+import '../../views/forget_password/forget_password_flow.dart';
 import '../../views/auth/login_view.dart';
 import '../../views/auth/register_view.dart';
 import '../../views/home/home_view.dart';
@@ -32,7 +33,39 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.register,
-      builder: (context, state) => const RegisterView(),
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const RegisterView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final tween = Tween(begin: const Offset(0.3, 0.0), end: Offset.zero)
+              .chain(CurveTween(curve: Curves.easeOutCubic));
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.forgetPassword,
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const ForgetPasswordFlow(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final tween = Tween(begin: const Offset(0.3, 0.0), end: Offset.zero)
+              .chain(CurveTween(curve: Curves.easeOutCubic));
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
+      ),
     ),
     GoRoute(
       path: AppRoutes.home,
@@ -55,14 +88,16 @@ final GoRouter appRouter = GoRouter(
     final onPublic =
         loc == AppRoutes.login ||
         loc == AppRoutes.register ||
+        loc == AppRoutes.forgetPassword ||
         loc == AppRoutes.splash;
 
     if (kIsWeb) {
       if (loggedIn) return loc == AppRoutes.home ? null : AppRoutes.home;
-      return loc == AppRoutes.login ? null : AppRoutes.login;
+      if (onPublic) return null;
+      return AppRoutes.login;
     }
 
-    if (loggedIn && (loc == AppRoutes.login || loc == AppRoutes.register)) {
+    if (loggedIn && (loc == AppRoutes.login || loc == AppRoutes.register || loc == AppRoutes.forgetPassword)) {
       return AppRoutes.home;
     }
     if (!loggedIn && !onPublic) return AppRoutes.splash;

@@ -5,20 +5,18 @@ import '../../../core/device/device_info_service.dart';
 import '../../../core/localization/app_translations.dart';
 import '../../../core/theme/extensions/context_theme_extension.dart';
 import '../../../core/theme/tokens/app_radius.dart';
-import '../../../services/app_update/app_update_service.dart';
+import '../../../models/app/app_version_model/app_version_model.dart';
 
 class SplashUpdateDialog {
   SplashUpdateDialog._();
 
   static Future<void> show(
     BuildContext context, {
-    required UpdateInfo update,
+    required AppVersionModel update,
     required bool forced,
     VoidCallback? onUpdate,
   }) {
-    final theme = Theme.of(context);
-    final colors = context.colors;
-    final scheme = theme.colorScheme;
+    final scheme = context.colorScheme;
     final primary = scheme.primary;
 
     return showDialog<void>(
@@ -55,7 +53,7 @@ class SplashUpdateDialog {
               const SizedBox(height: 18),
               Text(
                 AppTranslations.tr('updateTitle'),
-                style: theme.textTheme.titleLarge?.copyWith(
+                style: context.typography.titleLarge?.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 17,
                 ),
@@ -63,44 +61,15 @@ class SplashUpdateDialog {
               ),
               const SizedBox(height: 10),
               Text(
-                update.message,
-                style: theme.textTheme.bodyMedium?.copyWith(
+                update.description,
+                style: context.typography.bodyMedium?.copyWith(
                   color: scheme.onSurface.withValues(alpha: 0.6),
                   height: 1.5,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 18),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    update.currentVersion,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: colors.warning,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Icon(
-                      Icons.arrow_forward_rounded,
-                      color: scheme.outline,
-                      size: 18,
-                    ),
-                  ),
-                  Text(
-                    update.latestVersion,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: colors.success,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
               if (DeviceInfoService.cached != null) ...[
-                const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
@@ -122,7 +91,7 @@ class SplashUpdateDialog {
                       Flexible(
                         child: Text(
                           '${AppTranslations.tr('device')}: ${DeviceInfoService.cached!.summary}',
-                          style: theme.textTheme.labelSmall?.copyWith(
+                          style: context.typography.labelSmall?.copyWith(
                             color: scheme.onSurface.withValues(alpha: 0.6),
                           ),
                           textAlign: TextAlign.center,
@@ -141,21 +110,20 @@ class SplashUpdateDialog {
                     label: AppTranslations.tr('update'),
                     height: 45,
                     icon: HugeIcons.strokeRoundedDownload02,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    onUpdate();
-                  },
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      onUpdate();
+                    },
                   ),
                 ),
               ],
-
               if (!forced || onUpdate == null) ...[
                 const SizedBox(height: 6),
                 TextButton(
                   onPressed: () => Navigator.of(ctx).pop(),
                   child: Text(
                     AppTranslations.tr('later'),
-                    style: theme.textTheme.labelLarge?.copyWith(
+                    style: context.typography.labelLarge?.copyWith(
                       color: scheme.outline,
                     ),
                   ),

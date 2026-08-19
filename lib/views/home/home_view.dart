@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:isp_aljazeera/controllers/auth/auth_controller.dart';
-import 'package:isp_aljazeera/models/auth/user_model.dart';
+import 'package:isp_aljazeera/models/auth/user_model/user_model.dart';
 import 'package:isp_aljazeera/core/localization/app_translations.dart';
 import 'package:isp_aljazeera/core/theme/tokens/app_brand.dart';
 import 'package:isp_aljazeera/core/routes/app_routes.dart';

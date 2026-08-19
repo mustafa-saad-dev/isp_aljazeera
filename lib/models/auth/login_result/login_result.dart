@@ -1,4 +1,4 @@
-import 'user_model.dart';
+import '../user_model/user_model.dart';
 
 class LoginResult {
   final String accessToken;

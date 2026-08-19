@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 import '../../core/status/request_status.dart';
-import '../../services/app_update/app_update_service.dart';
+import '../../models/app/app_version_model/app_version_model.dart';
 
 class SplashState extends Equatable {
   final RequestStatus status;
-  final UpdateInfo? update;
+  final AppVersionModel? update;
   final bool updateRequired;
 
   const SplashState({
@@ -16,7 +16,7 @@ class SplashState extends Equatable {
 
   SplashState copyWith({
     RequestStatus? status,
-    UpdateInfo? update,
+    AppVersionModel? update,
     bool? updateRequired,
     bool clearUpdate = false,
     bool clearUpdateRequired = false,

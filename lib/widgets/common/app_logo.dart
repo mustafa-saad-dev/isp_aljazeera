@@ -13,7 +13,7 @@ class AppLogo extends StatelessWidget {
       AppAssets.logo,
       width: size,
       height: size,
-      fit: BoxFit.contain,
+      fit: BoxFit.cover,
     );
   }
 }

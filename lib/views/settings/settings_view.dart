@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:isp_aljazeera/controllers/auth/auth_controller.dart';
 import 'package:isp_aljazeera/core/localization/app_translations.dart';
-import 'package:isp_aljazeera/models/auth/user_model.dart';
-import 'package:isp_aljazeera/core/pwa/pwa_install.dart';
+import 'package:isp_aljazeera/models/auth/user_model/user_model.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -27,6 +25,7 @@ class SettingsView extends StatelessWidget {
             subtitle: Text(user?.email ?? user?.phone ?? ''),
           ),
           const Divider(),
+
           // BlocBuilder<LanguageCubit, Locale>(
           //   builder: (context, locale) => ListTile(
           //     leading: const Icon(Icons.language_outlined),
@@ -81,7 +80,6 @@ class SettingsView extends StatelessWidget {
           //     ),
           //   ),
           // ),
-       
           const Divider(),
           ListTile(
             leading: const Icon(Icons.cloud_outlined),
@@ -89,22 +87,22 @@ class SettingsView extends StatelessWidget {
             subtitle: Text(AppTranslations.tr('sasradiusSubtitle')),
             trailing: const Icon(Icons.chevron_right),
           ),
-          if (kIsWeb)
-            ValueListenableBuilder<bool>(
-              valueListenable: PwaInstall.notifier,
-              builder: (context, canInstall, _) {
-                if (!canInstall) return const SizedBox.shrink();
-                return ListTile(
-                  leading: const Icon(Icons.install_mobile_outlined),
-                  title: Text(AppTranslations.tr('pwa')),
-                  subtitle: Text(AppTranslations.tr('pwaInstallHint')),
-                  trailing: FilledButton(
-                    onPressed: () => PwaInstall.install(),
-                    child: Text(AppTranslations.tr('install')),
-                  ),
-                );
-              },
-            ),
+          // if (kIsWeb)
+          //   ValueListenableBuilder<bool>(
+          //     valueListenable: PwaInstall.notifier,
+          //     builder: (context, canInstall, _) {
+          //       if (!canInstall) return const SizedBox.shrink();
+          //       return ListTile(
+          //         leading: const Icon(Icons.install_mobile_outlined),
+          //         title: Text(AppTranslations.tr('pwa')),
+          //         subtitle: Text(AppTranslations.tr('pwaInstallHint')),
+          //         trailing: FilledButton(
+          //           onPressed: () => PwaInstall.install(),
+          //           child: Text(AppTranslations.tr('install')),
+          //         ),
+          //       );
+          //     },
+          //   ),
           ListTile(
             leading: const Icon(Icons.notifications_outlined),
             title: Text(AppTranslations.tr('notifications')),

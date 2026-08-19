@@ -5,7 +5,7 @@ import '../../core/localization/app_translations.dart';
 import '../../core/network/connectivity_service.dart';
 import '../../core/network/dio_error_handler.dart';
 import '../../core/storage/token_service.dart';
-import '../../models/auth/register_model.dart';
+import '../../models/auth/register_request/register_request.dart';
 import '../../services/auth/auth_service.dart';
 import '../../core/status/request_status.dart';
 import 'auth_state.dart';
@@ -59,6 +59,7 @@ class AuthController extends Cubit<AuthState> {
   Future<void> login({
     required String identifier,
     required String password,
+    required bool remember,
   }) async {
     if (isClosed) return;
     emit(

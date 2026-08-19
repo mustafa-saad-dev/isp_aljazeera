@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 
-import '../../core/config/app_config.dart';
-import '../../core/storage/token_service.dart';
+import '../../storage/token_service.dart';
+import 'api1_endpoint.dart';
 
-class ApiClient {
-  ApiClient._();
+class Api1 {
+  Api1._();
 
+  // ── Dio instance ──
+  static final Dio dio = _create();
+
+  // ── Streams ──
   static final StreamController<void> _unauthorizedController =
       StreamController<void>.broadcast();
   static Stream<void> get onUnauthorized => _unauthorizedController.stream;
@@ -16,26 +20,25 @@ class ApiClient {
   static Stream<void> get onEnrollmentRequired =>
       _enrollmentRequiredController.stream;
 
-  static final Dio dio = _create(AppConfig.mineBaseUrl);
-
-  static final Dio sasradius = _create(AppConfig.sasradiusBaseUrl);
-
-  static Dio _create(String baseUrl) {
+  static Dio _create() {
     return Dio(
-        BaseOptions(baseUrl: baseUrl, headers: {'Accept': 'application/json'}),
+        BaseOptions(
+          baseUrl: Api1Endpoints.baseUrl,
+          headers: {'Accept': 'application/json'},
+        ),
       )
       ..interceptors.add(
         InterceptorsWrapper(
           onRequest: (options, handler) async {
-            final token = TokenService.token;
-            if (token != null && token.isNotEmpty) {
+            final token = TokenService.getApi1Token();
+            if (token.isNotEmpty) {
               options.headers['Authorization'] = 'Bearer $token';
             }
             handler.next(options);
           },
           onError: (error, handler) async {
             if (error.response?.statusCode == 401) {
-              await TokenService.clear();
+              await TokenService.clearApi1();
               _unauthorizedController.add(null);
             }
             if (error.response?.statusCode == 423) {
