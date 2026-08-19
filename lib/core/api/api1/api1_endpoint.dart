@@ -7,7 +7,6 @@ class Api1Endpoints {
   static const String login = '/auth/login';
   static const String register = '/auth/register';
   static const String me = '/auth/me';
-  static const String refresh = '/auth/refresh';
   static const String logout = '/auth/logout';
 
   // ── Forgot Password ──
@@ -17,4 +16,10 @@ class Api1Endpoints {
 
   // ── App ──
   static const String checkUpdate = '/app/version';
+
+  // ── Add Company ──
+  static const String addCompany = "company";
+
+  // ── Transfer Data to Server ──
+  static const String transferData = "data/transfer-data";
 }

@@ -40,13 +40,10 @@ class _RegisterViewState extends State<RegisterView> {
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
-    final identifier = _email.text.trim().isNotEmpty
-        ? _email.text.trim()
-        : _phone.text.trim();
+
     context.read<AuthController>().register(
       RegisterRequest(
         name: _name.text.trim(),
-        identifier: identifier,
         password: _password.text,
         email: _email.text.trim().isNotEmpty ? _email.text.trim() : '',
         phone: _phone.text.trim().isNotEmpty ? _phone.text.trim() : '',

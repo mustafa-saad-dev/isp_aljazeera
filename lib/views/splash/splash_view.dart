@@ -104,6 +104,6 @@ class _SplashViewState extends State<SplashView> {
     }
 
     _navigated = true;
-    context.go(auth.user != null ? AppRoutes.home : AppRoutes.login);
+    context.go(auth.isLoggedIn ? AppRoutes.home : AppRoutes.login);
   }
 }

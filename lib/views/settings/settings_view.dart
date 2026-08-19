@@ -3,27 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:isp_aljazeera/controllers/auth/auth_controller.dart';
 import 'package:isp_aljazeera/core/localization/app_translations.dart';
-import 'package:isp_aljazeera/models/auth/user_model/user_model.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final user = context.select<AuthController, UserModel?>(
-      (c) => c.state.user,
-    );
+    // final user = context.select<AuthController, UserModel?>(
+    //   (c) => c.state.user,
+    // );
 
     return Scaffold(
       appBar: AppBar(title: Text(AppTranslations.tr('settings'))),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          ListTile(
-            leading: const Icon(Icons.person_outline),
-            title: Text(user?.name ?? '—'),
-            subtitle: Text(user?.email ?? user?.phone ?? ''),
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.person_outline),
+          //   title: Text(user?.name ?? '—'),
+          //   subtitle: Text(user?.email ?? user?.phone ?? ''),
+          // ),
           const Divider(),
 
           // BlocBuilder<LanguageCubit, Locale>(

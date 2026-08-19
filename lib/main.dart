@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => AuthController()..loadSession()),
+        BlocProvider.value(value: AuthController.instance..loadProfile()),
         BlocProvider(create: (_) => LocaleController()..loadSavedLocale()),
         BlocProvider(create: (_) => ThemeController()..loadSavedTheme()),
       ],

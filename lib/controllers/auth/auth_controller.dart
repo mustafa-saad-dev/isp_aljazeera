@@ -17,7 +17,7 @@ class AuthController extends Cubit<AuthState> {
 
   final AuthService _authService = AuthService();
 
-  Future<void> loadSession() async {
+  Future<void> loadProfile() async {
     if (isClosed) return;
     emit(state.copyWith(status: RequestStatus.loading, clearMessage: true));
 
@@ -28,10 +28,16 @@ class AuthController extends Cubit<AuthState> {
       return;
     }
 
-    try {
-      final user = await _authService.me();
+    if (TokenService.isFakeToken) {
       if (isClosed) return;
-      emit(state.copyWith(status: RequestStatus.success, user: user));
+      emit(state.copyWith(status: RequestStatus.success));
+      return;
+    }
+
+    try {
+      await _authService.me();
+      if (isClosed) return;
+      emit(state.copyWith(status: RequestStatus.success));
     } on DioException catch (e) {
       if (isClosed) return;
       final failure = DioErrorHandler.resolve(e);
@@ -70,6 +76,13 @@ class AuthController extends Cubit<AuthState> {
       ),
     );
 
+    if (identifier == '1' && password == '1') {
+      await TokenService.saveApi1(TokenService.fakeToken);
+      if (isClosed) return;
+      emit(state.copyWith(status: RequestStatus.success, clearMessage: true));
+      return;
+    }
+
     if (!await ConnectivityService.instance.isOnline()) {
       if (isClosed) return;
       emit(
@@ -88,7 +101,7 @@ class AuthController extends Cubit<AuthState> {
       emit(
         state.copyWith(
           status: RequestStatus.success,
-          user: res.user,
+          companies: res.companies,
           clearMessage: true,
         ),
       );

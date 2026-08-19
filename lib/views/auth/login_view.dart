@@ -55,9 +55,9 @@ class _LoginViewState extends State<LoginView> {
         statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
       ),
       child: BlocConsumer<AuthController, AuthState>(
-        listenWhen: (p, c) => c.user != null || c.isError || c.isOffline,
+        listenWhen: (p, c) => c.isLoggedIn || c.isError || c.isOffline,
         listener: (context, state) {
-          if (state.user != null) {
+          if (state.isLoggedIn) {
             context.go(AppRoutes.home);
           } else if (state.isError || state.isOffline) {
             ToastHelper.showError(context, state.message ?? '');
@@ -175,7 +175,7 @@ class _LoginViewState extends State<LoginView> {
                             AppButton(
                               height: 45,
                               label: AppTranslations.tr('loginButton'),
-                              onPressed: state.isOffline ? null : _submit,
+                              onPressed: _submit,
                               isLoading: loading,
                               fullWidth: true,
                             ),

@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:isp_aljazeera/controllers/auth/auth_controller.dart';
-import 'package:isp_aljazeera/models/auth/user_model/user_model.dart';
 import 'package:isp_aljazeera/core/localization/app_translations.dart';
-import 'package:isp_aljazeera/core/theme/tokens/app_brand.dart';
 import 'package:isp_aljazeera/core/routes/app_routes.dart';
 import 'package:isp_aljazeera/views/home/widgets/space_tile.dart';
 import 'package:isp_aljazeera/widgets/common/double_back_to_exit.dart';
@@ -15,9 +13,9 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.select<AuthController, UserModel?>(
-      (c) => c.state.user,
-    );
+    // final user = context.select<AuthController, UserModel?>(
+    //   (c) => c.state.user,
+    // );
 
     return Scaffold(
       appBar: AppBar(
@@ -38,56 +36,56 @@ class HomeView extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppBrand.brand, AppBrand.accent],
-                ),
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 26,
-                    backgroundColor: Colors.white.withValues(alpha: 0.25),
-                    child: Text(
-                      (user?.name.isNotEmpty == true ? user!.name[0] : 'U')
-                          .toUpperCase(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${AppTranslations.tr('welcome')}${user?.name ?? ''}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          user?.role ?? '',
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   padding: const EdgeInsets.all(20),
+            //   decoration: BoxDecoration(
+            //     gradient: const LinearGradient(
+            //       colors: [AppBrand.brand, AppBrand.accent],
+            //     ),
+            //     borderRadius: BorderRadius.circular(18),
+            //   ),
+            //   child: Row(
+            //     children: [
+            //       CircleAvatar(
+            //         radius: 26,
+            //         backgroundColor: Colors.white.withValues(alpha: 0.25),
+            //         child: Text(
+            //           (user?.name.isNotEmpty == true ? user!.name[0] : 'U')
+            //               .toUpperCase(),
+            //           style: const TextStyle(
+            //             color: Colors.white,
+            //             fontSize: 24,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //       ),
+            //       const SizedBox(width: 14),
+            //       Expanded(
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               '${AppTranslations.tr('welcome')}${user?.name ?? ''}',
+            //               style: const TextStyle(
+            //                 color: Colors.white,
+            //                 fontSize: 18,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //             const SizedBox(height: 4),
+            //             Text(
+            //               user?.role ?? '',
+            //               style: const TextStyle(
+            //                 color: Colors.white70,
+            //                 fontSize: 13,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             const SizedBox(height: 18),
             Text(
               AppTranslations.tr('workspaces'),

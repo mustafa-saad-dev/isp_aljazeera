@@ -3,7 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/api/api1/api1.dart';
 import '../../core/api/api1/api1_endpoint.dart';
-import '../../core/config/app_config.dart';
 import '../../core/device/device_info_service.dart';
 import '../../core/localization/app_translations.dart';
 import '../../models/app/app_version_model/app_version_model.dart';
@@ -39,11 +38,6 @@ class AppUpdateService {
   }
 
   Future<AppVersionModel?> checkForUpdate() async {
-    if (AppConfig.useFakeApi) {
-      await Future.delayed(const Duration(milliseconds: 700));
-      return null;
-    }
-
     try {
       final res = await Api1.dio.get(Api1Endpoints.checkUpdate);
       return AppVersionModel.fromJson(res.data);

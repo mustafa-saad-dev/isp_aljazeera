@@ -8,10 +8,8 @@ import 'api2_endpoint.dart';
 class Api2 {
   Api2._();
 
-  // ── Dio instance (auto encrypt/decrypt) ──
   static final Dio dio = _create();
 
-  // ── Streams ──
   static final StreamController<void> _unauthorizedController =
       StreamController<void>.broadcast();
   static Stream<void> get onUnauthorized => _unauthorizedController.stream;
@@ -21,20 +19,30 @@ class Api2 {
   static Stream<void> get onEnrollmentRequired =>
       _enrollmentRequiredController.stream;
 
+  static bool _isLoginRequest(RequestOptions options) {
+    return options.path.endsWith('/login');
+  }
+
   static Dio _create() {
     return Dio(
         BaseOptions(
-          baseUrl: Api2Endpoints.baseUrl,
+          baseUrl: "${Api2Endpoints.baseUrl}/admin/api",
           headers: {'Accept': 'application/json'},
         ),
       )
       ..interceptors.add(
         InterceptorsWrapper(
           onRequest: (options, handler) async {
+            if (_isLoginRequest(options)) {
+              handler.next(options);
+              return;
+            }
+
             final rawToken = TokenService.getApi2Token();
             if (rawToken.isNotEmpty) {
-              final decryptedToken =
-                  AesEncryptionService.decryptToken(rawToken);
+              final decryptedToken = AesEncryptionService.decryptToken(
+                rawToken,
+              );
               options.headers['Authorization'] = 'Bearer $decryptedToken';
             }
 
@@ -45,11 +53,17 @@ class Api2 {
             handler.next(options);
           },
           onResponse: (response, handler) async {
+            if (_isLoginRequest(response.requestOptions)) {
+              handler.next(response);
+              return;
+            }
+
             if (response.data is Map<String, dynamic> ||
                 response.data is String) {
               try {
-                response.data =
-                    AesEncryptionService.decryptResponse(response.data);
+                response.data = AesEncryptionService.decryptResponse(
+                  response.data,
+                );
               } catch (_) {}
             }
             handler.next(response);
@@ -62,12 +76,13 @@ class Api2 {
             if (error.response?.statusCode == 423) {
               _enrollmentRequiredController.add(null);
             }
-            if (error.response?.data is Map<String, dynamic> ||
-                error.response?.data is String) {
+            if (!_isLoginRequest(error.requestOptions) &&
+                (error.response?.data is Map<String, dynamic> ||
+                    error.response?.data is String)) {
               try {
-                error.response!.data =
-                    AesEncryptionService.decryptResponse(
-                        error.response!.data);
+                error.response!.data = AesEncryptionService.decryptResponse(
+                  error.response!.data,
+                );
               } catch (_) {}
             }
             handler.next(error);

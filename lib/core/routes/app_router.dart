@@ -4,12 +4,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../controllers/auth/auth_controller.dart';
 import '../../core/routes/app_routes.dart';
+import '../../views/dashboard/dashboard_shell.dart';
+import '../../views/dashboard/pages/dashboard_home/dashboard_home_page.dart';
+import '../../views/dashboard/pages/placeholder_page.dart';
 import '../../views/forget_password/forget_password_flow.dart';
 import '../../views/auth/login_view.dart';
 import '../../views/auth/register_view.dart';
-import '../../views/home/home_view.dart';
-import '../../views/reports/reports_view.dart';
-import '../../views/settings/settings_view.dart';
 import '../../views/splash/splash_view.dart';
 
 class _AuthNotifier extends ChangeNotifier {
@@ -37,14 +37,13 @@ final GoRouter appRouter = GoRouter(
         key: state.pageKey,
         child: const RegisterView(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final tween = Tween(begin: const Offset(0.3, 0.0), end: Offset.zero)
-              .chain(CurveTween(curve: Curves.easeOutCubic));
+          final tween = Tween(
+            begin: const Offset(0.3, 0.0),
+            end: Offset.zero,
+          ).chain(CurveTween(curve: Curves.easeOutCubic));
           return SlideTransition(
             position: animation.drive(tween),
-            child: FadeTransition(
-              opacity: animation,
-              child: child,
-            ),
+            child: FadeTransition(opacity: animation, child: child),
           );
         },
       ),
@@ -55,34 +54,54 @@ final GoRouter appRouter = GoRouter(
         key: state.pageKey,
         child: const ForgetPasswordFlow(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final tween = Tween(begin: const Offset(0.3, 0.0), end: Offset.zero)
-              .chain(CurveTween(curve: Curves.easeOutCubic));
+          final tween = Tween(
+            begin: const Offset(0.3, 0.0),
+            end: Offset.zero,
+          ).chain(CurveTween(curve: Curves.easeOutCubic));
           return SlideTransition(
             position: animation.drive(tween),
-            child: FadeTransition(
-              opacity: animation,
-              child: child,
-            ),
+            child: FadeTransition(opacity: animation, child: child),
           );
         },
       ),
     ),
-    GoRoute(
-      path: AppRoutes.home,
-      builder: (context, state) => const HomeView(),
-    ),
-    GoRoute(
-      path: AppRoutes.reports,
-      builder: (context, state) => const ReportsView(),
-    ),
-    GoRoute(
-      path: AppRoutes.settings,
-      builder: (context, state) => const SettingsView(),
+    ShellRoute(
+      builder: (context, state, child) => DashboardShell(child: child),
+      routes: [
+        GoRoute(
+          path: AppRoutes.home,
+          builder: (context, state) => const DashboardHomePage(),
+        ),
+        GoRoute(
+          path: AppRoutes.companies,
+          builder: (context, state) => const PlaceholderPage(title: 'الشركات'),
+        ),
+        GoRoute(
+          path: AppRoutes.subscriptions,
+          builder: (context, state) => const PlaceholderPage(title: 'المشتركين'),
+        ),
+        GoRoute(
+          path: AppRoutes.reports,
+          builder: (context, state) => const PlaceholderPage(title: 'التقارير'),
+        ),
+        GoRoute(
+          path: AppRoutes.settings,
+          builder: (context, state) => const PlaceholderPage(title: 'الإعدادات'),
+        ),
+        GoRoute(
+          path: AppRoutes.notifications,
+          builder: (context, state) => const PlaceholderPage(title: 'الإشعارات'),
+        ),
+        GoRoute(
+          path: AppRoutes.profile,
+          builder: (context, state) => const PlaceholderPage(title: 'الملف الشخصي'),
+        ),
+      ],
     ),
   ],
   redirect: (_, state) {
     final authState = AuthController.instance.state;
-    final loggedIn = authState.user != null;
+    final loggedIn = authState.isLoggedIn;
     final loc = state.matchedLocation;
 
     final onPublic =
@@ -92,12 +111,18 @@ final GoRouter appRouter = GoRouter(
         loc == AppRoutes.splash;
 
     if (kIsWeb) {
-      if (loggedIn) return loc == AppRoutes.home ? null : AppRoutes.home;
+      if (loggedIn) {
+        final onAuthRoute = loc == AppRoutes.login || loc == AppRoutes.splash;
+        return onAuthRoute ? AppRoutes.home : null;
+      }
       if (onPublic) return null;
       return AppRoutes.login;
     }
 
-    if (loggedIn && (loc == AppRoutes.login || loc == AppRoutes.register || loc == AppRoutes.forgetPassword)) {
+    if (loggedIn &&
+        (loc == AppRoutes.login ||
+            loc == AppRoutes.register ||
+            loc == AppRoutes.forgetPassword)) {
       return AppRoutes.home;
     }
     if (!loggedIn && !onPublic) return AppRoutes.splash;
