@@ -19,6 +19,14 @@ class Api2 {
   static Stream<void> get onEnrollmentRequired =>
       _enrollmentRequiredController.stream;
 
+  // ── Credentials provider for auto re-login ──
+  static Future<String> Function()? _credentialsProvider;
+  static bool _isRefreshing = false;
+
+  static void setCredentialsProvider(Future<String> Function() provider) {
+    _credentialsProvider = provider;
+  }
+
   static bool _isLoginRequest(RequestOptions options) {
     return options.path.endsWith('/login');
   }
@@ -26,12 +34,12 @@ class Api2 {
   static Dio _create() {
     return Dio(
         BaseOptions(
-          baseUrl: "${Api2Endpoints.baseUrl}/admin/api",
+          baseUrl: "${Api2Endpoints.baseUrl}/admin/api/index.php/api",
           headers: {'Accept': 'application/json'},
         ),
       )
       ..interceptors.add(
-        InterceptorsWrapper(
+        QueuedInterceptorsWrapper(
           onRequest: (options, handler) async {
             if (_isLoginRequest(options)) {
               handler.next(options);
@@ -69,13 +77,34 @@ class Api2 {
             handler.next(response);
           },
           onError: (error, handler) async {
-            if (error.response?.statusCode == 401) {
-              await TokenService.clearApi2();
+            // ── 401: try auto re-login + retry ──
+            if (error.response?.statusCode == 401 &&
+                !_isLoginRequest(error.requestOptions) &&
+                _credentialsProvider != null) {
+              if (!_isRefreshing) {
+                _isRefreshing = true;
+                try {
+                  final token = await _credentialsProvider!();
+                  _isRefreshing = false;
+
+                  if (token.isNotEmpty) {
+                    // retry original request with new token
+                    final opts = error.requestOptions;
+                    opts.headers['Authorization'] = 'Bearer $token';
+                    final response = await dio.fetch(opts);
+                    return handler.resolve(response);
+                  }
+                } catch (_) {
+                  _isRefreshing = false;
+                }
+              }
               _unauthorizedController.add(null);
             }
+
             if (error.response?.statusCode == 423) {
               _enrollmentRequiredController.add(null);
             }
+
             if (!_isLoginRequest(error.requestOptions) &&
                 (error.response?.data is Map<String, dynamic> ||
                     error.response?.data is String)) {
@@ -92,7 +121,7 @@ class Api2 {
   }
 
   static void updateBaseUrl(String url) {
-    dio.options.baseUrl = url;
+    dio.options.baseUrl = '$url/admin/api/index.php/api';
   }
 
   static String errorMessage(DioException e) {

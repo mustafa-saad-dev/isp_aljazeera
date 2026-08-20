@@ -1,7 +1,6 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
+import '../../core/theme/app_theme.dart';
 import '../../core/helpers/assets_helper.dart';
 import '../../core/localization/app_translations.dart';
 import '../../core/theme/tokens/app_brand.dart';
@@ -14,27 +13,30 @@ class AppLoadingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = context.typography;
+
     return Center(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         children: [
+          const Spacer(),
+      
           OrbitDots(size: size),
           const SizedBox(height: 18),
-          const GradientText(
-            'Subnex',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+          GradientText(
+            AppTranslations.tr('appName'),
+            style: textTheme.headlineMedium!.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: 6),
           Text(
             tagline ?? AppTranslations.tr('loading'),
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF7D93AD),
-              letterSpacing: 0.3,
-            ),
+            style: textTheme.bodySmall,
           ),
-          if (footer != null) ...[const SizedBox(height: 20), footer!],
+          const Spacer(),
+          ?footer,
+          const SizedBox(height: 24),
         ],
       ),
     );
@@ -51,7 +53,6 @@ class AppLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: AppLoadingBody(tagline: tagline, footer: footer, size: size),
     );
   }
@@ -124,7 +125,7 @@ class _OrbitDotsState extends State<OrbitDots>
         AppAssets.logo,
         width: widget.logoSize,
         height: widget.logoSize,
-        fit: BoxFit.contain,
+        fit: BoxFit.cover,
       ),
     );
 
@@ -160,7 +161,7 @@ class GradientText extends StatelessWidget {
     return ShaderMask(
       blendMode: BlendMode.srcIn,
       shaderCallback: (bounds) => LinearGradient(
-        colors: [AppBrand.brandStrong, AppBrand.accent],
+        colors: [AppBrand.brand, AppBrand.brandSoft],
       ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
       child: Text(text, style: style.copyWith(color: Colors.white)),
     );

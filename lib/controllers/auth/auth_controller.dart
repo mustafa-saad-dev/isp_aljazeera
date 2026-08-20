@@ -81,6 +81,14 @@ class AuthController extends Cubit<AuthState> {
       if (isClosed) return;
       emit(state.copyWith(status: RequestStatus.success, clearMessage: true));
       return;
+    } else {
+      emit(
+        state.copyWith(
+          status: RequestStatus.error,
+          message: "Information Error",
+        ),
+      );
+      return;
     }
 
     if (!await ConnectivityService.instance.isOnline()) {

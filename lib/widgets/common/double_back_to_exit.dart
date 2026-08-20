@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import '../../core/helpers/toast_helper.dart';
 import '../../core/localization/app_translations.dart';
+import '../../core/toast/app_toast.dart';
 
 class DoubleBackToExit extends StatefulWidget {
   const DoubleBackToExit({super.key, required this.child});
@@ -32,7 +32,7 @@ class _DoubleBackToExitState extends State<DoubleBackToExit> {
         }
         _lastPressed = now;
         _allowExit = false;
-        ToastHelper.showWarning(context, AppTranslations.tr('exitWarning'));
+        AppToast.warning(context, AppTranslations.tr('exitWarning'));
         Future.delayed(const Duration(seconds: 2), () {
           if (mounted) setState(() => _allowExit = false);
         });

@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 import '../errors/error_translator.dart';
@@ -11,18 +14,21 @@ class AppToast {
       message: message,
       type: ToastificationType.success,
       color: context.colors.success,
-      icon: Icons.check_rounded,
+      icon: Icons.check_circle_rounded,
+      title: 'تم بنجاح',
     );
   }
 
   static void error(BuildContext context, String message) {
+    print(message);
     final translated = ErrorTranslator.translate(context, message);
     _show(
       context: context,
       message: context.tr(translated),
       type: ToastificationType.error,
       color: context.colorScheme.error,
-      icon: Icons.error_outline_rounded,
+      icon: Icons.cancel_rounded,
+      title: 'خطأ',
     );
   }
 
@@ -32,7 +38,8 @@ class AppToast {
       message: message,
       type: ToastificationType.warning,
       color: context.colors.warning,
-      icon: Icons.warning_amber_rounded,
+      icon: Icons.warning_rounded,
+      title: 'تنبيه',
     );
   }
 
@@ -43,6 +50,7 @@ class AppToast {
       type: ToastificationType.info,
       color: context.colorScheme.primary,
       icon: Icons.info_rounded,
+      title: 'معلومة',
     );
   }
 
@@ -52,45 +60,87 @@ class AppToast {
     required ToastificationType type,
     required Color color,
     required IconData icon,
-    Alignment align = Alignment.topCenter,
+    required String title,
   }) {
     final scheme = context.colorScheme;
     final shadows = context.shadows;
+    final brightness = Theme.of(context).brightness;
+    final isDark = brightness == Brightness.dark;
 
     toastification.show(
       context: context,
       type: type,
       style: ToastificationStyle.flat,
-      alignment: align,
-      autoCloseDuration: const Duration(seconds: 3),
+      alignment: kIsWeb
+          ? Alignment.bottomRight
+          : Platform.isAndroid || Platform.isIOS
+          ? Alignment.topCenter
+          : Alignment.bottomRight,
+      autoCloseDuration: const Duration(seconds: 4),
       animationDuration: const Duration(milliseconds: 350),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      borderRadius: AppRadius.smallAll,
-      boxShadow: shadows.sm,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      borderRadius: AppRadius.mediumAll,
+      boxShadow: shadows.md,
       backgroundColor: scheme.surface,
-      borderSide: BorderSide(color: color.withValues(alpha: .05)),
-      icon: Container(
-        padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-        child: Icon(icon, color: context.colors.white, size: 16),
+      borderSide: BorderSide(
+        color: isDark
+            ? color.withValues(alpha: 0.25)
+            : color.withValues(alpha: 0.12),
+        width: 1,
       ),
-      description: Text(
-        message,
+      sizeConstraints: const BoxConstraints(maxWidth: 360, minHeight: 56),
+      icon: Container(
+        width: 34,
+        height: 34,
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color.withValues(alpha: 0.12),
+        ),
+        child: Icon(icon, color: color, size: 18),
+      ),
+      title: Text(
+        title,
         style: TextStyle(
-          color: scheme.onSurface,
-          fontWeight: FontWeight.w600,
-          fontSize: 11.5,
+          color: color,
+          fontWeight: FontWeight.w700,
+          fontSize: 13,
         ),
       ),
-      closeButton: ToastCloseButton(showType: CloseButtonShowType.none),
-      progressBarTheme: ProgressIndicatorThemeData(
-        color: color,
-        linearMinHeight: 1.5,
-
-        linearTrackColor: color.withValues(alpha: .15),
+      description: Padding(
+        padding: const EdgeInsets.only(top: 2),
+        child: Text(
+          message,
+          style: TextStyle(
+            color: scheme.onSurface.withValues(alpha: 0.65),
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+            height: 1.4,
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      closeButton: ToastCloseButton(
+        showType: CloseButtonShowType.always,
+        buttonBuilder: (context, onClose) {
+          return GestureDetector(
+            onTap: onClose,
+            child: Icon(
+              Icons.close_rounded,
+              size: 16,
+              color: scheme.onSurface.withValues(alpha: 0.3),
+            ),
+          );
+        },
       ),
       showProgressBar: true,
+      progressBarTheme: ProgressIndicatorThemeData(
+        color: color,
+        linearMinHeight: 2,
+        linearTrackColor: color.withValues(alpha: 0.08),
+      ),
     );
   }
 }

@@ -19,7 +19,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 28px;
-  background: #ffffff;
+  background: var(--surface);
   transition: opacity 0.5s ease;
 }
 
@@ -120,7 +120,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.4px;
   margin: 0;
-  background: linear-gradient(90deg, var(--brand-strong), var(--accent));
+  background: linear-gradient(90deg, var(--brand), var(--brand-soft));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -136,6 +136,22 @@ body {
   letter-spacing: 0.3px;
   opacity: 0;
   animation: rise 0.8s ease-out 0.42s forwards;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  #app-loading {
+    background: #121419;
+  }
+  .wordmark {
+    background: linear-gradient(90deg, var(--brand), var(--brand-soft));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .tagline {
+    color: rgba(255, 255, 255, 0.54);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

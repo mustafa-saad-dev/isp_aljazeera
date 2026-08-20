@@ -4,9 +4,14 @@ class Api2Endpoints {
   // ── Base ──
   static String baseUrl = '';
 
+  // ── Dashboard ──
+  static const String dashboard = '/dashboard';
+  static String widgetData(String source) => '/widgetData/internal/$source';
+
   // ── Auth ──
   static const String login = '/login';
   static const String logout = '/logout';
+  static const String me = '/auth';
 
   // ── Users ──
   static const String userList = '/index/user';

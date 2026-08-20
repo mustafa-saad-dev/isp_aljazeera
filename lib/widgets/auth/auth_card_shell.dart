@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:isp_aljazeera/core/theme/app_theme.dart';
+import '../../core/localization/app_translations.dart';
 import '../../widgets/common/app_logo.dart';
 
 class AuthCardShell extends StatelessWidget {
@@ -33,14 +34,14 @@ class AuthCardShell extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30,horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Center(child: AppLogo(size: 90)),
                   const SizedBox(height: 14),
                   Text(
-                    'MY NET',
+                    AppTranslations.tr('appName'),
                     style: textTheme.headlineMedium?.copyWith(
                       fontSize: 26,
                       fontWeight: FontWeight.w800,

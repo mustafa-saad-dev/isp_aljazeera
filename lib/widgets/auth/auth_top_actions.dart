@@ -19,21 +19,9 @@ class AuthTopActions extends StatelessWidget {
           icon: Icons.language_rounded,
           label: localeState.langName,
           items: [
-            _DropdownItem(
-              value: 'ar',
-              label: 'العربية',
-              emoji: '🇮🇶',
-            ),
-            _DropdownItem(
-              value: 'en',
-              label: 'English',
-              emoji: '🇺🇸',
-            ),
-            _DropdownItem(
-              value: 'ku',
-              label: 'کوردی',
-              emoji: '🇮🇶',
-            ),
+            _DropdownItem(value: 'ar', label: 'العربية'),
+            _DropdownItem(value: 'en', label: 'English'),
+            _DropdownItem(value: 'ku', label: 'کوردی'),
           ],
           selected: localeState.locale.languageCode,
           onSelected: (v) =>
@@ -76,15 +64,9 @@ class AuthTopActions extends StatelessWidget {
 class _DropdownItem<T> {
   final T value;
   final String label;
-  final String? emoji;
   final Color? swatch;
 
-  const _DropdownItem({
-    required this.value,
-    required this.label,
-    this.emoji,
-    this.swatch,
-  });
+  const _DropdownItem({required this.value, required this.label, this.swatch});
 }
 
 class _AuthDropdown<T> extends StatefulWidget {
@@ -113,7 +95,8 @@ class _AuthDropdownState<T> extends State<_AuthDropdown<T>> {
 
   @override
   void dispose() {
-    _removeOverlay();
+    _overlay?.remove();
+    _overlay = null;
     super.dispose();
   }
 
@@ -206,9 +189,9 @@ class _AuthDropdownState<T> extends State<_AuthDropdown<T>> {
             Icon(widget.icon, size: 15, color: scheme.primary),
             const SizedBox(width: 7),
             Text(
-              widget.label,
+              AppTranslations.tr(widget.label),
               style: textTheme.labelSmall?.copyWith(
-                fontSize: 12.5,
+                fontSize: 11.5,
                 fontWeight: FontWeight.w600,
                 color: scheme.onSurface,
               ),
@@ -302,14 +285,6 @@ class _DropdownMenu<T> extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        if (item.emoji != null) ...[
-                          Text(
-                            item.emoji!,
-                            style: const TextStyle(fontSize: 17),
-                          ),
-
-                          const SizedBox(width: 10),
-                        ],
                         Text(
                           item.label,
                           style: textTheme.bodyMedium?.copyWith(

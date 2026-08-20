@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../controllers/forget_password/forgot_password_controller.dart';
 import '../../controllers/forget_password/forgot_password_state.dart';
-import '../../core/helpers/toast_helper.dart';
 import '../../core/localization/app_translations.dart';
 import '../../core/routes/app_routes.dart';
+import '../../core/toast/app_toast.dart';
 import 'forget_password_view.dart';
 import 'otp_verify_view.dart';
 import 'reset_password_view.dart';
@@ -21,10 +21,12 @@ class ForgetPasswordFlow extends StatelessWidget {
         listenWhen: (p, c) => c.isError || c.isOffline || c.step >= 2,
         listener: (context, state) {
           if (state.isError || state.isOffline) {
-            ToastHelper.showError(context, state.message ?? '');
+            AppToast.error(context, state.message ?? '');
           } else if (state.step == 4) {
-            ToastHelper.showSuccess(
-                context, AppTranslations.tr('passwordResetSuccess'));
+            AppToast.success(
+              context,
+              AppTranslations.tr('passwordResetSuccess'),
+            );
             context.go(AppRoutes.login);
           }
         },

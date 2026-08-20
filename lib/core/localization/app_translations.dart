@@ -6,22 +6,38 @@ import 'package:flutter/services.dart';
 class AppTranslations {
   AppTranslations._();
 
+  static const String _langFolder = 'assets/lang/';
+  static bool _loaded = false;
+  static final Map<String, Map<String, String>> _values = {};
+
   static Locale locale = const Locale('ar');
   static final List<Locale> supportedLocales = const [
     Locale('ar'),
     Locale('en'),
+    Locale('ku'),
   ];
 
-  static Map<String, String> _strings = {};
+  static Future<void> load() async {
+    if (_loaded) return;
 
-  static Future<void> load([Locale? locale]) async {
-    final l = locale ?? AppTranslations.locale;
-    AppTranslations.locale = l;
-    final path = 'assets/lang/${l.languageCode}.json';
-    final jsonStr = await rootBundle.loadString(path);
-    final map = Map<String, dynamic>.from(json.decode(jsonStr));
-    _strings = map.map((k, v) => MapEntry(k, v.toString()));
+    final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+    final langFiles = manifest.listAssets().where(
+      (path) => path.startsWith(_langFolder) && path.endsWith('.json'),
+    );
+
+    for (final path in langFiles) {
+      final code = path.split('/').last.replaceAll('.json', '');
+      final raw = await rootBundle.loadString(path);
+      final Map<String, dynamic> decoded = json.decode(raw);
+      _values[code] = decoded.map(
+        (key, value) => MapEntry(key, value.toString()),
+      );
+    }
+
+    _loaded = true;
   }
 
-  static String tr(String key) => _strings[key] ?? key;
+  static String tr(String key) {
+    return _values[locale.languageCode]?[key] ?? key;
+  }
 }

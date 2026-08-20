@@ -2,10 +2,10 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/toast/app_toast.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../../controllers/auth/auth_controller.dart';
 import '../../controllers/auth/auth_state.dart';
-import '../../core/helpers/toast_helper.dart';
 import '../../core/localization/app_translations.dart';
 import '../../core/routes/app_routes.dart';
 import '../../models/auth/register_request/register_request.dart';
@@ -65,7 +65,7 @@ class _RegisterViewState extends State<RegisterView> {
         listenWhen: (p, c) => c.isError || c.isOffline || c.registered,
         listener: (context, state) {
           if (state.isError || state.isOffline) {
-            ToastHelper.showError(context, state.message ?? '');
+            AppToast.error(context, state.message ?? '');
           }
         },
         builder: (context, state) {

@@ -10,6 +10,7 @@ import 'core/localization/app_translations.dart';
 import 'core/routes/app_router.dart';
 import 'core/storage/token_service.dart';
 import 'core/theme/app_theme.dart';
+import 'core/localization/kurdish_fallback_delegates.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,25 +55,10 @@ class _AppView extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           locale: localeState.locale,
           supportedLocales: AppTranslations.supportedLocales,
-          localeResolutionCallback: (locale, supportedLocales) {
-            final code = locale?.languageCode;
-            if (code == 'ku') {
-              AppTranslations.load(const Locale('ku'));
-              return supportedLocales.firstWhere(
-                (s) => s.languageCode == 'ar',
-                orElse: () => supportedLocales.first,
-              );
-            }
-            for (final supported in supportedLocales) {
-              if (code == supported.languageCode) {
-                AppTranslations.load(supported);
-                return supported;
-              }
-            }
-            AppTranslations.load(supportedLocales.first);
-            return supportedLocales.first;
-          },
+
           localizationsDelegates: const [
+            KurdishMaterialLocalizationsDelegate(),
+            KurdishCupertinoLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,

@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-import 'package:isp_aljazeera/core/status/request_status.dart';
-import 'package:isp_aljazeera/widgets/common/list_refresh.dart';
-import 'package:isp_aljazeera/widgets/status/empty_view.dart';
-import 'package:isp_aljazeera/widgets/status/error_view.dart';
-import 'package:isp_aljazeera/widgets/status/loading_view.dart';
-import 'package:isp_aljazeera/widgets/status/offline_view.dart';
+import '../../core/status/request_status.dart';
+import '../common/list_refresh.dart';
+import 'empty_view.dart';
+import 'error_view.dart';
+import 'loading_view.dart';
+import 'offline_view.dart';
 
 class StatusView extends StatelessWidget {
+  final RequestStatus status;
+  final Widget child;
+  final String? message;
+  final VoidCallback? onRetry;
+  final bool isEmpty;
+  final RefreshController? refreshController;
+  final Future<void> Function()? onRefresh;
+  final Future<void> Function()? onLoadMore;
+  
   const StatusView({
     super.key,
     required this.status,
@@ -20,15 +29,6 @@ class StatusView extends StatelessWidget {
     this.onRefresh,
     this.onLoadMore,
   });
-
-  final RequestStatus status;
-  final Widget child;
-  final String? message;
-  final VoidCallback? onRetry;
-  final bool isEmpty;
-  final RefreshController? refreshController;
-  final Future<void> Function()? onRefresh;
-  final Future<void> Function()? onLoadMore;
 
   Widget _body(BuildContext context) {
     switch (status) {

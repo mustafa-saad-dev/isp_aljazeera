@@ -1,33 +1,33 @@
 :root {
   /* Brand */
-  --brand: #378add;
-  --brand-strong: #1f6fc4;
-  --brand-soft: #6aa9e0;
-  --accent: #1d9e75;
+  --brand: #F26522;
+  --brand-strong: #D95216;
+  --brand-soft: #F7935A;
+  --accent: #29A3CD;
 
   /* Surfaces / background */
-  --bg-top: #eef3fa;
-  --bg-bottom: #e6edf6;
+  --bg-top: #eef0f3;
+  --bg-bottom: #e4e6ea;
   --surface: #ffffff;
-  --line: #e7edf4;
+  --line: #edf0f3;
 
   /* Shimmer */
-  --shimmer-a: #eef2f7;
-  --shimmer-b: #dde6f1;
+  --shimmer-a: #f5f6f8;
+  --shimmer-b: #e8eaed;
 
   /* Progress ring */
-  --ring-track: rgba(31, 111, 196, 0.14);
+  --ring-track: rgba(242, 101, 34, 0.14);
 
   /* Mesh / glow */
-  --gold: #ba7517;
-  --glow-1: rgba(55, 138, 221, 0.4);
-  --glow-2: rgba(29, 158, 117, 0.34);
-  --glow-3: rgba(186, 117, 23, 0.22);
+  --gold: #F0B429;
+  --glow-1: rgba(242, 101, 34, 0.4);
+  --glow-2: rgba(41, 163, 205, 0.34);
+  --glow-3: rgba(240, 180, 41, 0.22);
   --disc-bg: rgba(255, 255, 255, 0.55);
   --disc-border: rgba(255, 255, 255, 0.85);
-  --disc-shadow: 0 20px 50px -20px rgba(15, 61, 120, 0.45);
+  --disc-shadow: 0 20px 50px -20px rgba(200, 80, 20, 0.45);
 
   /* Text */
-  --text-strong: #122a47;
-  --text-muted: #7d93ad;
+  --text-strong: #374151;
+  --text-muted: #6B7280;
 }

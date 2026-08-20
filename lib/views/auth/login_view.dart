@@ -2,10 +2,10 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/toast/app_toast.dart';
 import '../../widgets/common/app_button.dart';
 import '../../controllers/auth/auth_controller.dart';
 import '../../controllers/auth/auth_state.dart';
-import '../../core/helpers/toast_helper.dart';
 import '../../core/localization/app_translations.dart';
 import '../../core/routes/app_routes.dart';
 import '../../widgets/auth/auth.dart';
@@ -60,7 +60,7 @@ class _LoginViewState extends State<LoginView> {
           if (state.isLoggedIn) {
             context.go(AppRoutes.home);
           } else if (state.isError || state.isOffline) {
-            ToastHelper.showError(context, state.message ?? '');
+            AppToast.error(context, state.message ?? '');
           }
         },
         builder: (context, state) {

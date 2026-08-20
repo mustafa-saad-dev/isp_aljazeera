@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../core/localization/app_translations.dart';
 import 'locale_state.dart';
 import 'dart:ui';
 
@@ -36,6 +37,7 @@ class LocaleController extends Cubit<LocaleState> {
   Future<void> loadSavedLocale() async {
     final saved = await _storage.read(key: _key);
     if (saved != null) {
+      AppTranslations.locale = Locale(saved);
       String langName = getLocaleName(saved);
       emit(LocaleState(Locale(saved), langName));
       return;
@@ -44,6 +46,7 @@ class LocaleController extends Cubit<LocaleState> {
     final deviceLanguage = PlatformDispatcher.instance.locale.languageCode;
 
     final locale = supported.contains(deviceLanguage) ? deviceLanguage : 'en';
+    AppTranslations.locale = Locale(locale);
     String langName = getLocaleName(locale);
 
     emit(LocaleState(Locale(locale), langName));
@@ -54,6 +57,7 @@ class LocaleController extends Cubit<LocaleState> {
       _storage.write(key: _key, value: languageCode),
       _storage.write(key: _firstLaunchKey, value: 'true'),
     ]);
+    AppTranslations.locale = Locale(languageCode);
     String langName = getLocaleName(languageCode);
 
     emit(LocaleState(Locale(languageCode), langName));

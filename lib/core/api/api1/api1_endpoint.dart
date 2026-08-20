@@ -14,11 +14,12 @@ class Api1Endpoints {
   static const String verifyOtp = '/auth/verify-otp';
   static const String resetPassword = '/auth/reset-password';
 
-  // ── App ──
-  static const String checkUpdate = '/app/version';
-
   // ── Add Company ──
   static const String addCompany = "company";
+  static const String getCompanys = 'company';
+
+  // ── App ──
+  static const String checkUpdate = '/app/version';
 
   // ── Transfer Data to Server ──
   static const String transferData = "data/transfer-data";

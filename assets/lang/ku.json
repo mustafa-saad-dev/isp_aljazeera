@@ -128,5 +128,15 @@
   "revenueTrend": "ڕێichaی دەرەмяکان (7 ڕۆژی ڕابردوو)",
   "salesDistribution": "دابەشکردنی فرۆشتن بەپێی جۆر",
   "subscription": "ئابوونە",
-  "device": "ئامێر"
+  "device": "ئامێر",
+  "widget_title_total_users": "کۆی ئابوونەکان",
+  "widget_title_active_users": "ئابوونە چالاکەکان",
+  "widget_title_online_users": "ئابوونە پەیوەندکراوەکان",
+  "widget_title_expired_users": "ئابوونە تەواوبووەکان",
+  "widget_title_expiring_users": "لە 3 ڕۆژدا تەواو دەبن",
+  "widget_title_balance": "ماناڵ",
+  "widget_title_reward_points": "خاڵی بۆنە",
+  "morning": "بەیانی باش",
+  "afternoon": "ئێوارەی باش",
+  "evening": "شەوی باش"
 }
